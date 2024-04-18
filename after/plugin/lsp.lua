@@ -1,5 +1,7 @@
-local lsp = require('lsp-zero').preset({})
+local lsp = require('lsp-zero')
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+local lspconfig = require('lspconfig')
 lsp.on_attach(function(client, bufnr)
   -- see :help lsp-zero-keybindings
   -- to learn the available actions
@@ -28,7 +30,8 @@ require('mason-lspconfig').setup({
   },
 })
 
-require('lspconfig').lua_ls.setup({
+
+lspconfig.lua_ls.setup({
   settings = {
     Lua = {
       diagnostics = {
@@ -37,13 +40,13 @@ require('lspconfig').lua_ls.setup({
     }
   }
 })
-require 'lspconfig'.gopls.setup {}
-require 'lspconfig'.graphql.setup {}
-require 'lspconfig'.emmet_language_server.setup {
+lspconfig.gopls.setup {}
+lspconfig.graphql.setup {}
+lspconfig.emmet_language_server.setup {
   filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
 }
 
-require 'lspconfig'.rust_analyzer.setup {
+lspconfig.rust_analyzer.setup {
   settings = {
     ['rust-analyzer'] = {
       diagnostics = {
@@ -53,13 +56,15 @@ require 'lspconfig'.rust_analyzer.setup {
   }
 }
 
-require 'lspconfig'.eslint.setup {}
+lspconfig.eslint.setup {}
 
-require 'lspconfig'.tsserver.setup {}
+lspconfig.tsserver.setup {
+  capabilities = capabilities,
+}
 
-require 'lspconfig'.bashls.setup {}
+lspconfig.bashls.setup {}
 
-require 'lspconfig'.tailwindcss.setup {
+lspconfig.tailwindcss.setup {
   filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
   on_attach = function(_, bufnr)
     -- other stuff --
@@ -67,9 +72,52 @@ require 'lspconfig'.tailwindcss.setup {
   end
 }
 
-require 'lspconfig'.docker_compose_language_service.setup {}
+lspconfig.docker_compose_language_service.setup {}
 
-require 'lspconfig'.dockerls.setup {}
+lspconfig.dockerls.setup {}
+
+lspconfig.omnisharp.setup {
+  cmd = { "dotnet", "/Users/fere/language_servers/omnisharp/OmniSharp.dll" },
+
+  -- Enables support for reading code style, naming convention and analyzer
+  -- settings from .editorconfig.
+  enable_editorconfig_support = true,
+
+  -- If true, MSBuild project system will only load projects for files that
+  -- were opened in the editor. This setting is useful for big C# codebases
+  -- and allows for faster initialization of code navigation features only
+  -- for projects that are relevant to code that is being edited. With this
+  -- setting enabled OmniSharp may load fewer projects and may thus display
+  -- incomplete reference lists for symbols.
+  enable_ms_build_load_projects_on_demand = false,
+
+  -- Enables support for roslyn analyzers, code fixes and rulesets.
+  enable_roslyn_analyzers = false,
+
+  -- Specifies whether 'using' directives should be grouped and sorted during
+  -- document formatting.
+  organize_imports_on_format = false,
+
+  -- Enables support for showing unimported types and unimported extension
+  -- methods in completion lists. When committed, the appropriate using
+  -- directive will be added at the top of the current file. This option can
+  -- have a negative impact on initial completion responsiveness,
+  -- particularly for the first few completion sessions after opening a
+  -- solution.
+  enable_import_completion = false,
+
+  -- Specifies whether to include preview versions of the .NET SDK when
+  -- determining which version to use for project loading.
+  sdk_include_prereleases = true,
+
+  -- Only run analyzers against open files when 'enableRoslynAnalyzers' is
+  -- true
+  analyze_open_documents_only = false,
+}
+
+lspconfig.volar.setup {
+  filetypes = { 'vue' }
+}
 
 lsp.format_mapping('gq', {
   format_opts = {
@@ -105,9 +153,6 @@ lsp.format_on_save({
 })
 
 
-require 'lspconfig'.volar.setup {
-  filetypes = { 'vue' }
-}
 
 lsp.setup()
 

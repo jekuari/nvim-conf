@@ -58,6 +58,13 @@ vim.keymap.set("v", "<leader>p", '"0p')
 vim.keymap.set("n", "<leader>P", '"0P')
 vim.keymap.set("v", "<leader>P", '"0P')
 
+-- tab navigation
+vim.keymap.set("n", "<Tab>n", ":tabnew<CR>")
+vim.keymap.set("n", "<Tab>h", ":tabprevious<CR>")
+vim.keymap.set("n", "<Tab>l", ":tabnext<CR>")
+vim.keymap.set("n", "<Tab>d", ":tabclose<CR>")
+
+
 -- move to start of line using F
 vim.keymap.set("n", "F", "^")
 

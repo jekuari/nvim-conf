@@ -3,30 +3,52 @@ require("lazy").setup({
   {
     'nvim-telescope/telescope.nvim', tag = '0.1.4',
   },
-  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-  'nvim-lua/plenary.nvim',
-  'ThePrimeagen/harpoon',
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    dependencies = {
+      "windwp/nvim-ts-autotag"
+    }
+  },
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+  },
   'mbbill/undotree',
   'tpope/vim-fugitive',
   { "catppuccin/nvim",                  as = "catppuccin" },
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },
 
-  { 'VonHeikemen/lsp-zero.nvim',        branch = 'v3.x' },
-  { 'neovim/nvim-lspconfig' },
-  { 'hrsh7th/cmp-nvim-lsp' },
-  { 'hrsh7th/nvim-cmp' },
-  { 'L3MON4D3/LuaSnip' },
-  "nvim-tree/nvim-tree.lua",
-  "nvim-tree/nvim-web-devicons",
   {
-    "ziontee113/icon-picker.nvim",
-    config = function()
-      require("icon-picker").setup({
-        disable_legacy_commands = true
-      })
-    end,
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v3.x',
+    dependencies = { 'neovim/nvim-lspconfig' }
   },
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
+  },
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end,
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    }
+  },
+  { 'hrsh7th/cmp-nvim-lsp' },
   {
     "roobert/tailwindcss-colorizer-cmp.nvim",
     config = function()
@@ -35,8 +57,83 @@ require("lazy").setup({
       })
     end
   },
+  {
+    "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
+    dependencies = {
+      "hrsh7th/cmp-buffer", -- source for text in buffer
+      "hrsh7th/cmp-path",   -- source for file system paths
+      {
+        "L3MON4D3/LuaSnip",
+        -- follow latest release.
+        version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+        -- install jsregexp (optional!).
+        build = "make install_jsregexp",
+      },
+      "saadparwaiz1/cmp_luasnip",     -- for autocompletion
+      "rafamadriz/friendly-snippets", -- useful snippets
+      "onsails/lspkind.nvim",         -- vs-code like pictograms
+
+    },
+    config = function()
+      local cmp = require('cmp')
+
+      local lspkind = require('lspkind')
+
+      require("luasnip.loaders.from_vscode").load()
+
+      cmp.setup({
+        completion = {
+          completeopt = "menu,menuone,preview,noselect",
+        },
+        snippet = { -- configure how nvim-cmp interacts with snippet engine
+          expand = function(args)
+            require('luasnip').lsp_expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert({
+          ['<C-m>'] = cmp.mapping.select_prev_item(),
+          ['<C-n>'] = cmp.mapping.select_next_item(),
+          ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-i>'] = cmp.mapping.scroll_docs(4),
+          ['<C-o>'] = cmp.mapping.complete(),
+          ['<C-e>'] = cmp.mapping.close(),
+          ['<C-y>'] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
+          }),
+        }),
+        -- sources for autocompletion
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' },
+          { name = 'luasnip' },
+          { name = 'buffer' },
+          { name = 'path' },
+        }),
+
+        -- configure lspkind for vs-code like pictograms in completion menu
+        formatting = {
+          format = lspkind.cmp_format({
+            maxwidth = 50,
+            ellipsis_char = "...",
+            before = function(entry, vim_item)
+              return require("tailwindcss-colorizer-cmp").formatter(entry, vim_item)
+            end
+          }),
+        },
+      })
+    end
+  },
+  "nvim-tree/nvim-tree.lua",
+  "nvim-tree/nvim-web-devicons",
   'jose-elias-alvarez/null-ls.nvim',
   'MunifTanjim/prettier.nvim',
+  {
+    "ziontee113/icon-picker.nvim",
+    config = function()
+      require("icon-picker").setup({ disable_legacy_commands = true })
+    end,
+  },
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' }
@@ -49,9 +146,6 @@ require("lazy").setup({
   },
   "folke/tokyonight.nvim",
   "themaxmarchuk/tailwindcss-colors.nvim",
-  "mlaursen/vim-react-snippets",
-  'SirVer/ultisnips',
-  'honza/vim-snippets',
   'chentoast/marks.nvim',
   'christoomey/vim-tmux-navigator',
   {
@@ -104,14 +198,16 @@ require("lazy").setup({
       })
     end
   },
+  { "stevearc/dressing.nvim", event = "VeryLazy" },
   {
     'rmagatti/auto-session',
     config = function()
       require("auto-session").setup {
         log_level = "error",
-        auto_session_suppress_dirs = { "~/Projects" },
+        auto_session_allowed_dirs = { "~/Projects", "~/.config" },
         auto_save_enabled = true,
         auto_restore_enabled = false,
+        auto_session_use_git_branch = true,
         pre_save_cmds = { function() vim.cmd("NvimTreeClose") end },
         post_save_cmds = { function() vim.cmd("NvimTreeOpen") end },
         post_restore_cmds = { function() vim.cmd("NvimTreeOpen") end },
@@ -155,6 +251,16 @@ require("lazy").setup({
             {
               icon = ' ', --  
               icon_hl = 'group',
+              desc = 'Search Session',
+              desc_hl = 'group',
+              key = 'b',
+              key_hl = 'group',
+              key_format = ' [%s]', -- `%s` will be substituted with value of `key`
+              action = require("session-lens").search_session,
+            },
+            {
+              icon = ' ', --  
+              icon_hl = 'group',
               desc = 'Recent Projects',
               desc_hl = 'group',
               key = '1',
@@ -174,5 +280,57 @@ require("lazy").setup({
       }
     end,
     dependencies = { { 'nvim-tree/nvim-web-devicons' } }
-  }
+  },
+  {
+    "lewis6991/gitsigns.nvim",
+    event = { "BufRead", "BufNewFile" },
+    config = function()
+      require('gitsigns').setup()
+    end
+  },
+  {
+    "folke/trouble.nvim",
+    cmd = "TroubleToggle",
+    config = function()
+      require("trouble").setup {
+        auto_preview = false,
+        auto_fold = true,
+        auto_close = true,
+        auto_loc_list = true,
+        auto_loclist = true,
+        signs = {
+          error = "",
+          warning = "",
+          hint = "",
+          information = "",
+          other = "﫠",
+        },
+        use_lsp_diagnostic_signs = true,
+      }
+    end,
+  },
+  {
+    "folke/todo-comments.nvim",
+    event = "BufRead",
+    config = function()
+      require("todo-comments").setup {
+        signs = true,
+        keywords = {
+          FIX = {
+            icon = " ",
+            color = "error",
+            alt = { "FIXME", "BUG", "FIXIT", "ISSUE" },
+          },
+          TODO = { icon = " ", color = "info" },
+          HACK = { icon = " ", color = "warning" },
+          WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+        },
+        colors = {
+          error = { "LspDiagnosticsDefaultError", "ErrorMsg" },
+          warning = { "LspDiagnosticsDefaultWarning", "WarningMsg" },
+          info = { "LspDiagnosticsDefaultInformation", "MoreMsg" },
+        },
+      }
+    end,
+  },
 })
