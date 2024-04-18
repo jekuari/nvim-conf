@@ -2,18 +2,6 @@ return {
   'nvim-lualine/lualine.nvim',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   config = function()
-    local function get_venv(variable)
-      local venv = os.getenv(variable)
-      if venv ~= nil and string.find(venv, "/") then
-        local orig_venv = venv
-        for w in orig_venv:gmatch("([^/]+)") do
-          venv = w
-        end
-        venv = string.format("%s", venv)
-      end
-      return venv
-    end
-
     require('lualine').setup {
       options = {
         icons_enabled = true,
@@ -36,9 +24,12 @@ return {
       sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = { 'filename' },
-        lualine_x = { 'encoding', 'fileformat', 'filetype' },
-        lualine_y = { 'progress' },
+        lualine_c = { {
+          'filename',
+          path = 1
+        } },
+        lualine_x = {},
+        lualine_y = {},
         lualine_z = { 'location' }
       },
       inactive_sections = {
