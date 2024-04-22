@@ -18,6 +18,7 @@ vim.keymap.set("i", "<C-s>", '<Esc>:w<CR>a')
 vim.keymap.set("n", "<leader>n", ":nohlsearch<CR>")
 vim.keymap.set("n", "<leader>r", ":LspRestart<CR>")
 vim.keymap.set("n", "<leader>l", ":SearchSession<CR>")
+vim.keymap.set("i", "jk", "<Esc>")
 -- set leader + y to act as regular yank
 vim.keymap.set("v", "<leader>y", "y")
 vim.keymap.set("n", "<leader>y", "y")
