@@ -6,7 +6,7 @@ return {
     local lsp = require('lsp-zero')
 
     local lspconfig = require('lspconfig')
-    lsp.on_attach(function(client, bufnr)
+    lsp.on_attach(function(_, bufnr)
       -- see :help lsp-zero-keybindings
       -- to learn the available actions
       lsp.default_keymaps({ buffer = bufnr })
@@ -117,9 +117,14 @@ return {
       analyze_open_documents_only = false,
     }
 
-    lspconfig.volar.setup {
-      filetypes = { 'vue' }
-    }
+    lspconfig.volar.setup({
+      filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' },
+      init_options = {
+        vue = {
+          hybridMode = false
+        },
+      }
+    })
 
     lsp.format_mapping('gq', {
       format_opts = {
@@ -127,8 +132,17 @@ return {
         timeout_ms = 10000,
       },
       servers = {
-        ['null-ls'] = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact",
-          "typescript.tsx", "graphql", "sass", "css", "scss", "vue" },
+        ['null-ls'] = { "json", "javascript", "javascriptreact", "typescriptreact", "javascript.jsx", "typescript",
+          "typescript", "react",
+          "typescript.tsx", "graphql", "sass", "css", "scss", "vue", "html"
+        },
+        ['lua_ls'] = { "lua" },
+        ['gopls'] = { "go" },
+        ['rust_analyzer'] = { "rust" },
+        ['bashls'] = { "sh" },
+        ['tailwindcss'] = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+        ['docker_compose_language_service'] = { "yaml" },
+        ['dockerls'] = { "dockerfile" },
       }
     })
 
@@ -140,7 +154,7 @@ return {
       servers = {
         ['null-ls'] = { "json", "javascript", "javascriptreact", "typescriptreact", "javascript.jsx", "typescript",
           "typescript", "react",
-          "typescript.tsx", "graphql", "sass", "css", "scss", "vue",
+          "typescript.tsx", "graphql", "sass", "css", "scss", "vue", "html"
         },
         ['lua_ls'] = { "lua" },
         ['gopls'] = { "go" },

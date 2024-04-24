@@ -13,3 +13,6 @@ vim.opt.smartindent = true
 vim.opt.wrap = false
 
 vim.opt.incsearch = true
+
+-- set clipboard to unnamedplus
+vim.opt.clipboard = "unnamedplus"

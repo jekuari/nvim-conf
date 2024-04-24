@@ -2,18 +2,18 @@ return {
   "hrsh7th/nvim-cmp",
   event = "InsertEnter",
   dependencies = {
-    "hrsh7th/cmp-buffer",   -- source for text in buffer
-    "hrsh7th/cmp-path",     -- source for file system paths
+    "hrsh7th/cmp-buffer", -- source for text in buffer
+    "hrsh7th/cmp-path",   -- source for file system paths
     {
       "L3MON4D3/LuaSnip",
       -- follow latest release.
-      version = "v2.*",   -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+      version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
       -- install jsregexp (optional!).
       build = "make install_jsregexp",
     },
-    "saadparwaiz1/cmp_luasnip",       -- for autocompletion
-    "rafamadriz/friendly-snippets",   -- useful snippets
-    "onsails/lspkind.nvim",           -- vs-code like pictograms
+    "saadparwaiz1/cmp_luasnip",     -- for autocompletion
+    "rafamadriz/friendly-snippets", -- useful snippets
+    "onsails/lspkind.nvim",         -- vs-code like pictograms
 
   },
   config = function()
@@ -27,12 +27,12 @@ return {
       completion = {
         completeopt = "menu,menuone,preview,noselect",
       },
-      snippet = {   -- configure how nvim-cmp interacts with snippet engine
+      snippet = { -- configure how nvim-cmp interacts with snippet engine
         expand = function(args)
           require('luasnip').lsp_expand(args.body)
         end,
       },
-      mapping = cmp.mapping.preset.insert({
+      mapping = {
         ['<C-m>'] = cmp.mapping.select_prev_item(),
         ['<C-n>'] = cmp.mapping.select_next_item(),
         ['<C-u>'] = cmp.mapping.scroll_docs(-4),
@@ -43,7 +43,19 @@ return {
           behavior = cmp.ConfirmBehavior.Insert,
           select = true,
         }),
-      }),
+        -- Enter key SHOULD NOT confirm a completion item
+        ['<CR>'] = cmp.mapping({
+          i = function(fallback)
+            if cmp.visible() and cmp.get_active_entry() then
+              cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+            else
+              fallback()
+            end
+          end,
+          s = cmp.mapping.confirm({ select = true }),
+          c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+        }),
+      },
       -- sources for autocompletion
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
