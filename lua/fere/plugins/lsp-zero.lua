@@ -10,6 +10,38 @@ return {
       -- see :help lsp-zero-keybindings
       -- to learn the available actions
       lsp.default_keymaps({ buffer = bufnr })
+
+      lsp.default_keymaps({ buffer = bufnr })
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>di', '<cmd>lua vim.lsp.buf.implementation()<CR>',
+        { noremap = true, silent = true })
+      -- jump to definition using fd
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>dd', '<cmd>lua vim.lsp.buf.definition()<CR>',
+        { noremap = true, silent = true })
+      -- go to declaration using fD
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>dD', '<cmd>lua vim.lsp.buf.declaration()<CR>',
+        { noremap = true, silent = true })
+      -- go to type definition using ft
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>dt', '<cmd>lua vim.lsp.buf.type_definition()<CR>',
+        { noremap = true, silent = true })
+
+      -- go to references using fr
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>dr', '<cmd>lua vim.lsp.buf.references()<CR>',
+        { noremap = true, silent = true })
+      -- rename using fR
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>dR', '<cmd>lua vim.lsp.buf.rename()<CR>',
+        { noremap = true, silent = true })
+      -- show signature help using fs
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ds', '<cmd>lua vim.lsp.buf.signature_help()<CR>',
+        { noremap = true, silent = true })
+      -- format using ff
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>df', '<cmd>lua vim.lsp.buf.formatting()<CR>',
+        { noremap = true, silent = true })
+      -- show code actions using fc
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>dc', '<cmd>lua vim.lsp.buf.code_action()<CR>',
+        { noremap = true, silent = true })
+      -- show diagnostics using fd
+      vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>dl', '<cmd>lua vim.diagnostic.open_float()<CR>',
+        { noremap = true, silent = true })
     end)
 
     require('mason').setup({})
@@ -163,8 +195,7 @@ return {
         ['tailwindcss'] = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
         ['docker_compose_language_service'] = { "yaml" },
         ['dockerls'] = { "dockerfile" },
-        ['volar'] = { "vue" },
-        ['emmet_language_server'] = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
+        ['emmet_language_server'] = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact" },
       }
     })
 
