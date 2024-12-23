@@ -25,12 +25,18 @@ return {
       }
     }
 
-    vim.keymap.set('n', '<leader>f', builtin.find_files, {})
-    vim.keymap.set('n', '<leader>g', builtin.git_files, {})
+    vim.keymap.set('n', '<leader>f', builtin.find_files, {
+      desc = 'Find files'
+    })
+    vim.keymap.set('n', '<leader>g', builtin.git_files, {
+      desc = 'Find git files'
+    })
     -- vim.keymap.set('n', '<leader>s', function()
     --  builtin.grep_string({ search = vim.fn.input("Grep > ") });
     -- end)
     -- <leader>l to open live_grep
-    vim.keymap.set('n', '<leader>s', builtin.live_grep, {})
+    vim.keymap.set('n', '<leader>s', builtin.live_grep, {
+      desc = 'Live grep'
+    })
   end
 }

@@ -115,6 +115,6 @@ return {
 
       image:render()
       -- image:move(x, y)
-    end, { noremap = true, silent = true })
+    end, { noremap = true, silent = true, desc = "Open image in a floating window" })
   end
 }
