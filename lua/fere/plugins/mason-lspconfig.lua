@@ -4,23 +4,27 @@ return {
 	config = function()
 		local mason_lspconfig = require("mason-lspconfig")
 		local lspconfig = require("lspconfig")
+
+    local ok, wf = pcall(require, "vim.lsp._watchfiles")
+      if ok then
+         -- disable lsp watcher. Too slow on linux
+         wf._watchfunc = function()
+           return function() end
+      end
+    end
+
 		mason_lspconfig.setup({
 			ensure_installed = {
 				"ts_ls",
 				"eslint",
-				"gopls",
 				"lua_ls",
 				"graphql",
-				"rust_analyzer",
 				"bashls",
 				"tailwindcss",
 				"docker_compose_language_service",
 				"dockerls",
-				"volar",
 				"emmet_language_server",
-				"r_language_server",
-				"zls",
-				"pylsp",
+				"pyright",
 			},
 			handlers = {
 				function(server_name)
@@ -57,12 +61,6 @@ return {
 					})
 				end,
 
-				pylsp = function()
-					lspconfig.pylsp.setup({
-						--[[ 						cmd = { "/Users/fere/anaconda3/bin/pyls" }, ]]
-					})
-				end,
-
 				-- eslint
 				eslint = function()
 					lspconfig.eslint.setup({
@@ -80,6 +78,35 @@ return {
 						end,
 					})
 				end,
+
+				pyright = function()
+					local function organize_imports()
+            vim.cmd("PyrightOrganizeImports")
+					end
+
+					lspconfig.pyright.setup({
+            root_dir = function()
+              return vim.fn.getcwd()
+            end,
+            flags = {debounce_text_changes = 15000},
+            settings = {
+              python = {
+                analysis = {
+                  logLevel= "Error"
+                }
+              }
+            },
+            on_attach = function(client)
+              client.server_capabilities.documentFormattingProvider = false
+              client.server_capabilities.documentFormattingRangeProvider = false
+              vim.keymap.set("n", "<leader>do", organize_imports, {
+                desc = "Organize Imports",
+              })
+            end,
+
+          })
+
+        end,
 
 				ts_ls = function()
 					local function organize_imports()

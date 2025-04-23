@@ -10,27 +10,14 @@ return {
 		-- refer to the configuration section below
 		bigfile = { enabled = true },
 		dashboard = dashboard_config,
-		indent = { enabled = true },
+		indent = { enabled = true, animate = {enabled = false} },
 		input = { enabled = true },
 		notifier = {
 			enabled = true,
 			timeout = 3000,
 		},
 		quickfile = { enabled = true },
-		scroll = {
-			enabled = true,
-		},
 		statuscolumn = { enabled = true },
 		words = { enabled = true },
-		animate = {
-			---@class snacks.animate.Config
-			---@field easing? snacks.animate.easing|snacks.animate.easing.Fn
-			{
-				---@type snacks.animate.Duration|number
-				duration = { step = 5, total = 100 },
-				easing = "linear",
-				fps = 60, -- frames per second. Global setting for all animations
-			},
-		},
 	},
 }

@@ -1,15 +1,15 @@
 vim.g.mapleader = " "
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
+vim.keymap.set("v", "J", function() vim.cmd("m '>+1") end, { desc = "Move line down" })
+vim.keymap.set("v", "K", function() vim.cmd("m '<-1") end, { desc = "Move line up" })
 -- Open Copilot panel
 vim.keymap.set("n", "<leader>ac", function()
 	vim.cmd("Copilot panel")
 end, { desc = "Copilot panel", noremap = true, silent = true })
 
 -- Enable Copilot
-vim.keymap.set("n", "<leader>ce", function()
-	vim.cmd("Copilot enable")
-end, { desc = "Copilot enable", noremap = true, silent = true })
+-- vim.keymap.set("n", "<leader>ce", function()
+-- 	vim.cmd("Copilot enable")
+-- end, { desc = "Copilot enable", noremap = true, silent = true })
 
 -- Open terminal in a split, move it below, and resize
 vim.keymap.set("n", "<leader>t", function()
