@@ -74,6 +74,20 @@ vim.keymap.set("n", "<Tab>h", function()
 	vim.cmd("tabprevious")
 end, { noremap = true, silent = true })
 
+
+vim.keymap.set('n', '<leader>gf', function()
+  vim.cmd("Git fetch")
+end)
+
+vim.keymap.set('n', '<leader>gp', function()
+  vim.cmd("Git pull")
+end)
+
+vim.keymap.set('n', '<leader>gu', function()
+  vim.cmd("Git fetch")
+  vim.cmd("Git pull")
+end)
+
 vim.keymap.set("n", "<Tab>l", function()
 	vim.cmd("tabnext")
 end, { noremap = true, silent = true })
@@ -424,3 +438,4 @@ vim.keymap.set(
 	SelectSurroundingDeclaration,
 	{ noremap = true, silent = true, desc = "Select surrounding declaration" }
 )
+

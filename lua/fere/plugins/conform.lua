@@ -18,7 +18,7 @@ return {
 				markdown = { "prettierd", "prettier", stop_after_first = true },
 				go = { "gofumpt", "gofmt", "goimports", stop_after_first = true },
 				rust = { "rustfmt", stop_after_first = true },
-				python = { "black", stop_after_first = true },
+        python = { "ruff_format", "ruff_fix", "ruff_organize_imports" },
 				lua = { "stylua", "lua-format", stop_after_first = true },
 				sh = { "shfmt", stop_after_first = true },
 				dockerfile = { "dockerfilelint", stop_after_first = true },
