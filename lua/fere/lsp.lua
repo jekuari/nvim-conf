@@ -1,13 +1,12 @@
 vim.diagnostic.config({
-  virtual_text = true,  -- show inline messages
-  signs = true,         -- show signs in the gutter
-  underline = true,     -- underline problematic text
-  update_in_insert = false, -- don't update diagnostics while typing
-  severity_sort = true,     -- sort diagnostics by severity
+	virtual_text = true, -- show inline messages
+	signs = true, -- show signs in the gutter
+	underline = true, -- underline problematic text
+	update_in_insert = false, -- don't update diagnostics while typing
+	severity_sort = true, -- sort diagnostics by severity
 })
 
-vim.lsp.enable({"pyrefly", "eslint", "ts_ls"})
-
+vim.lsp.enable({ "pyrefly", "eslint", "ts_ls" })
 
 --[[ local progress = vim.defaulttable()
 vim.api.nvim_create_autocmd("LspProgress", {
@@ -51,65 +50,62 @@ vim.api.nvim_create_autocmd("LspProgress", {
   end,
 }) ]]
 
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(args)
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, {
-      buffer = args.buf,
-      desc = "Show hover information",
-    })
-    vim.keymap.set("n", "<leader>dd", vim.lsp.buf.definition, {
-      buffer = args.buf,
-      desc = "Go to definition",
-    })
-    vim.keymap.set("n", "<leader>dD", vim.lsp.buf.declaration, {
-      buffer = args.buf,
-      desc = "Go to declaration",
-    })
-    vim.keymap.set("n", "<leader>di", vim.lsp.buf.implementation, {
-      buffer = args.buf,
-      desc = "Go to implementation",
-    })
-    vim.keymap.set("n", "<leader>dt", vim.lsp.buf.type_definition, {
-      buffer = args.buf,
-      desc = "Go to type definition",
-    })
-    vim.keymap.set("n", "<leader>dR", vim.lsp.buf.references, {
-      buffer = args.buf,
-      desc = "Show references",
-    })
-    vim.keymap.set("n", "<leader>ds", vim.lsp.buf.signature_help, {
-      buffer = args.buf,
-      desc = "Show signature help",
-    })
-    vim.keymap.set("n", "<leader>dr", vim.lsp.buf.rename, {
-      buffer = args.buf,
-      desc = "Rename symbol",
-    })
-    vim.keymap.set("n", "<leader>dc", vim.lsp.buf.code_action, {
-      buffer = args.buf,
-      desc = "Show code actions",
-    })
-    vim.keymap.set("n", "<leader>dl", vim.diagnostic.open_float, {
-      buffer = args.buf,
-      desc = "Show diagnostics",
-    })
-  end
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		vim.keymap.set("n", "K", vim.lsp.buf.hover, {
+			buffer = args.buf,
+			desc = "Show hover information",
+		})
+		vim.keymap.set("n", "<leader>dd", vim.lsp.buf.definition, {
+			buffer = args.buf,
+			desc = "Go to definition",
+		})
+		vim.keymap.set("n", "<leader>dD", vim.lsp.buf.declaration, {
+			buffer = args.buf,
+			desc = "Go to declaration",
+		})
+		vim.keymap.set("n", "<leader>di", vim.lsp.buf.implementation, {
+			buffer = args.buf,
+			desc = "Go to implementation",
+		})
+		vim.keymap.set("n", "<leader>dt", vim.lsp.buf.type_definition, {
+			buffer = args.buf,
+			desc = "Go to type definition",
+		})
+		vim.keymap.set("n", "<leader>dR", vim.lsp.buf.references, {
+			buffer = args.buf,
+			desc = "Show references",
+		})
+		vim.keymap.set("n", "<leader>ds", vim.lsp.buf.signature_help, {
+			buffer = args.buf,
+			desc = "Show signature help",
+		})
+		vim.keymap.set("n", "<leader>dr", vim.lsp.buf.rename, {
+			buffer = args.buf,
+			desc = "Rename symbol",
+		})
+		vim.keymap.set("n", "<leader>dc", vim.lsp.buf.code_action, {
+			buffer = args.buf,
+			desc = "Show code actions",
+		})
+		vim.keymap.set("n", "<leader>dl", vim.diagnostic.open_float, {
+			buffer = args.buf,
+			desc = "Show diagnostics",
+		})
+	end,
 })
 
-vim.lsp.config('*', {
-    on_attach = function(client, bufnr)
-        -- overwrites omnifunc/tagfunc set by some Python plugins to the
-        -- default values for LSP
-        vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', {buf = bufnr})
-        vim.api.nvim_set_option_value('tagfunc', 'v:lua.vim.lsp.tagfunc', {buf = bufnr})
+vim.lsp.config("*", {
+	on_attach = function(client, bufnr)
+		-- overwrites omnifunc/tagfunc set by some Python plugins to the
+		-- default values for LSP
+		vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
+		vim.api.nvim_set_option_value("tagfunc", "v:lua.vim.lsp.tagfunc", { buf = bufnr })
 
-        vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-            vim.lsp.diagnostic.on_publish_diagnostics, {
-                signs = true,
-                underline = true,
-                virtual_text = true
-            }
-        )
-
-    end
+		vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+			signs = true,
+			underline = true,
+			virtual_text = true,
+		})
+	end,
 })

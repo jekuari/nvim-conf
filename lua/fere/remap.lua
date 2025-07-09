@@ -1,6 +1,6 @@
 vim.g.mapleader = " "
-vim.keymap.set("v", "J", function() vim.cmd("m '>+1") end, { desc = "Move line down" })
-vim.keymap.set("v", "K", function() vim.cmd("m '<-1") end, { desc = "Move line up" })
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
 -- Open Copilot panel
 vim.keymap.set("n", "<leader>ac", function()
 	vim.cmd("Copilot panel")
@@ -74,18 +74,17 @@ vim.keymap.set("n", "<Tab>h", function()
 	vim.cmd("tabprevious")
 end, { noremap = true, silent = true })
 
-
-vim.keymap.set('n', '<leader>gf', function()
-  vim.cmd("Git fetch")
+vim.keymap.set("n", "<leader>gf", function()
+	vim.cmd("Git fetch")
 end)
 
-vim.keymap.set('n', '<leader>gp', function()
-  vim.cmd("Git pull")
+vim.keymap.set("n", "<leader>gp", function()
+	vim.cmd("Git pull")
 end)
 
-vim.keymap.set('n', '<leader>gu', function()
-  vim.cmd("Git fetch")
-  vim.cmd("Git pull")
+vim.keymap.set("n", "<leader>gu", function()
+	vim.cmd("Git fetch")
+	vim.cmd("Git pull")
 end)
 
 vim.keymap.set("n", "<Tab>l", function()
@@ -438,4 +437,3 @@ vim.keymap.set(
 	SelectSurroundingDeclaration,
 	{ noremap = true, silent = true, desc = "Select surrounding declaration" }
 )
-

@@ -1,3 +1,3 @@
 return {
-  "themaxmarchuk/tailwindcss-colors.nvim",
+	"themaxmarchuk/tailwindcss-colors.nvim",
 }

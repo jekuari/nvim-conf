@@ -10,7 +10,7 @@ return {
 		-- refer to the configuration section below
 		bigfile = { enabled = true },
 		dashboard = dashboard_config,
-		indent = { enabled = true, animate = {enabled = false} },
+		indent = { enabled = true, animate = { enabled = false } },
 		input = { enabled = true },
 		notifier = {
 			enabled = true,
