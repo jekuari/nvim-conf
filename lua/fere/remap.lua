@@ -24,8 +24,10 @@ vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })
 vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to bottom window" })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to top window" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
-vim.keymap.set("n", "j", "jzzzv")
-vim.keymap.set("n", "k", "kzzzv")
+
+vim.opt.scrolloff = 999
+-- vim.keymap.set("n", "j", "jzzzv")
+-- vim.keymap.set("n", "k", "kzzzv")
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 vim.keymap.set("t", "<C-t>", "<C-c>exit<CR><C-\\><C-n><C-w>c")
 vim.keymap.set("i", "<C-s>", function()

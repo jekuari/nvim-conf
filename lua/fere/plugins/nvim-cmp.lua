@@ -23,8 +23,8 @@ return {
 		require("luasnip.loaders.from_vscode").load()
 
 		cmp.setup({
-			completion = {
-				completeopt = "menu,menuone,preview,noselect",
+      completion = {
+        completeopt = "menu,menuone,preview,noselect",
 			},
 			snippet = { -- configure how nvim-cmp interacts with snippet engine
 				expand = function(args)
@@ -58,6 +58,7 @@ return {
 			-- sources for autocompletion
 			sources = cmp.config.sources({
 				{ name = "nvim_lsp" },
+        { name = "amazonq" },
 				{ name = "luasnip" },
 				{ name = "buffer" },
 				{ name = "path" },

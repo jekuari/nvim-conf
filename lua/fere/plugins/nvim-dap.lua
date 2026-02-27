@@ -11,7 +11,7 @@ return {
 
     dap.adapters.python = {
       type = 'executable';
-      command = os.getenv("VIRTUAL_ENV") .. "/bin/python";
+      command = (os.getenv("VIRTUAL_ENV") or "") .. "/bin/python";
       args = { '-m', 'debugpy.adapter' };
     }
     
@@ -104,6 +104,25 @@ return {
       "<leader>daTt",
       function()
         dap_python.test_method({ config = { justMyCode = false } }) 
+      end,
+      {desc = "Run test under cursor justMyCode False"}
+    )
+
+    vim.keymap.set(
+      "n",
+      "<leader>daTa",
+      function()
+        dap.run(
+          {
+            type = 'python',
+            request = 'launch',
+            name = 'Pytest: All Tests',
+            module = 'pytest',
+            args = { '--rootdir', vim.fn.getcwd() }, -- Run pytest from the project root
+            console = "integratedTerminal",
+            pythonPath = "python"
+          }
+        )
       end,
       {desc = "Run test under cursor justMyCode False"}
     )
