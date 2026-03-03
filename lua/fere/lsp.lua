@@ -6,7 +6,7 @@ vim.diagnostic.config({
 	severity_sort = true, -- sort diagnostics by severity
 })
 
-vim.lsp.enable({ "pyrefly", "eslint", "ts_ls" })
+vim.lsp.enable({ "pyrefly", "eslint", "ts_ls", "gopls", "vue_ls", "ty" })
 
 --[[ local progress = vim.defaulttable()
 vim.api.nvim_create_autocmd("LspProgress", {
