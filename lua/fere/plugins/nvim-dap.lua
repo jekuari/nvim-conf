@@ -11,9 +11,12 @@ return {
 		dap_python.setup("python")
 		dap_python.test_runner = "pytest"
 
+		local venv = os.getenv("VIRTUAL_ENV")
+		local python_path = venv and (venv .. "/bin/python") or "python"
+
 		dap.adapters.python = {
 			type = "executable",
-			command = os.getenv("VIRTUAL_ENV") .. "/bin/python",
+			command = python_path,
 			args = { "-m", "debugpy.adapter" },
 		}
 
