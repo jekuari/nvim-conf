@@ -21,7 +21,5 @@ return {
 
   on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_option(bufnr, "formatexpr", "");
-  end,
-
-  capabilities = require('cmp_nvim_lsp').default_capabilities()
+  end
 }

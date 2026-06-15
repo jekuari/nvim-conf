@@ -50,6 +50,5 @@ return {
       nargs = 1,
       complete = 'file',
     })
-  end,
-  capabilities = require('cmp_nvim_lsp').default_capabilities()
+  end
 }

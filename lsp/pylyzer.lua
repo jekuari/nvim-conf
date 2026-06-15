@@ -19,6 +19,5 @@ return {
   },
   cmd_env = {
     ERG_PATH = vim.env.ERG_PATH or vim.fs.joinpath(vim.uv.os_homedir(), '.erg'),
-  },
-  capabilities = require('cmp_nvim_lsp').default_capabilities()
+  }
 }
