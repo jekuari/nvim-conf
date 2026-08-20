@@ -77,7 +77,7 @@ return {
 		plugins = {
 			{
 				name = "@vue/typescript-plugin",
-				location = "/Users/fere/.nvm/versions/node/v22.3.0/lib/node_modules/@vue/typescript-plugin",
+				location = vim.fn.expand("$MASON/packages/vue-language-server/node_modules/@vue/typescript-plugin"),
 				languages = { "javascript", "typescript", "vue" },
 			},
 		},

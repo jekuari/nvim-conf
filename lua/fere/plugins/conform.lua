@@ -27,12 +27,12 @@ return {
 		})
 
 		-- autoformat
-		vim.api.nvim_create_autocmd("BufWritePre", {
+		--[[ vim.api.nvim_create_autocmd("BufWritePre", {
 			pattern = "*",
 			callback = function(args)
 				conform.format({ bufnr = args.buf })
 			end,
-		})
+		}) ]]--
 
 		-- format on gq
 		vim.keymap.set({ "n", "x" }, "gq", function()

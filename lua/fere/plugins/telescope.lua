@@ -1,6 +1,6 @@
 return {
 	"nvim-telescope/telescope.nvim",
-	tag = "0.1.4",
+	branch = "master",
 	config = function()
 		local builtin = require("telescope.builtin")
 		local previewers = require("telescope.previewers")

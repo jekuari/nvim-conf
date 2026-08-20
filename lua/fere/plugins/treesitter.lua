@@ -19,41 +19,48 @@ return {
 				"vimdoc",
 				"query",
 				"vue",
+				"markdown",
+				"markdown_inline",
 			},
-
-			-- Install parsers synchronously (only applied to `ensure_installed`)
 			sync_install = true,
-
-			-- Automatically install missing parsers when entering buffer
-			-- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
 			auto_install = true,
-
-			indent = { enable = true },
-
-			-- autotag = { enable = true },
-
-			---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-			-- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-
-			highlight = {
-				enable = true,
-
-				-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-				-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-				-- Using this option may slow down your editor, and you may see some duplicate highlights.
-				-- Instead of true it can also be a list of languages
-				additional_vim_regex_highlighting = false,
-			},
-
-			incremental_selection = {
-				enable = true,
-				keymaps = {
-					init_selection = "<leader>k",
-					node_incremental = "<leader>k",
-					scope_incremental = "grc",
-					node_decremental = "<leader>j",
-				},
-			},
 		})
+
+		-- Incremental selection (replaces the removed nvim-treesitter module)
+		local current_node = nil
+
+		vim.keymap.set({ "n", "x" }, "<leader>k", function()
+			if vim.fn.mode() == "n" then
+				current_node = vim.treesitter.get_node()
+				if not current_node then return end
+				local sr, sc, er, ec = current_node:range()
+				vim.api.nvim_win_set_cursor(0, { sr + 1, sc })
+				vim.cmd("normal! v")
+				vim.api.nvim_win_set_cursor(0, { er + 1, ec > 0 and ec - 1 or 0 })
+			else
+				if not current_node then return end
+				local parent = current_node:parent()
+				if not parent then return end
+				current_node = parent
+				local sr, sc, er, ec = current_node:range()
+				vim.cmd("normal! \27")
+				vim.api.nvim_win_set_cursor(0, { sr + 1, sc })
+				vim.cmd("normal! v")
+				vim.api.nvim_win_set_cursor(0, { er + 1, ec > 0 and ec - 1 or 0 })
+			end
+		end, { desc = "Treesitter: Init/Expand selection" })
+
+		vim.keymap.set("x", "<leader>j", function()
+			if not current_node then return end
+			local child = current_node:child(0)
+			if child then
+				current_node = child
+			end
+			local sr, sc, er, ec = current_node:range()
+			vim.cmd("normal! \27")
+			vim.api.nvim_win_set_cursor(0, { sr + 1, sc })
+			vim.cmd("normal! v")
+			vim.api.nvim_win_set_cursor(0, { er + 1, ec > 0 and ec - 1 or 0 })
+		end, { desc = "Treesitter: Shrink selection" })
 	end,
 }
