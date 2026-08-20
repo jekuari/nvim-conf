@@ -6,11 +6,16 @@ return {
 	},
 	config = function()
 		local hop = require("hop")
-		hop.setup({ keys = "etovxqpdygfblzhckisuranñ" })
+		hop.setup({ keys = "etovxqpdygfblzhckisuran" })
 		vim.keymap.set("n", "<leader>h", function()
 			hop.hint_anywhere()
 		end, {
 			desc = "Hop anywhere",
+		})
+		vim.keymap.set("n", ";", function()
+			hop.hint_words()
+		end, {
+			desc = "Hop word",
 		})
 		vim.keymap.set("n", "ñ", function()
 			hop.hint_words()
